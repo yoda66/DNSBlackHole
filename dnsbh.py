@@ -13,7 +13,25 @@ def fetchurl(url):
     return content
 
 
-def create_zonefile(content, bh_zonefile,
+def create_zone_file(bh_zonefile, ttl=3600, ip='127.0.0.1'):
+    f = open(bh_zonefile, 'w')
+    f.write("""\
+$TTL %s
+@ IN SOA localhost. root.localhost. (
+          1     ; Serial
+     604800     ; Refresh
+      86400     ; Retry
+    2419200     ; Expire
+     604800 )   ; Negative Cache TTL
+;
+@   IN  NS  localhost.
+@   IN  A   %s
+""" % (ttl, ip))
+    f.close()
+    return
+
+
+def create_named_conf(content, bh_zonefile,
                     named_filename, bdir='', banner=''):
     # regular expression to match a domain name
     rxp = re.compile(
@@ -67,12 +85,14 @@ if __name__ == '__main__':
         '-d', '--bdir', dest='bdir',
         default=''
     )
+    parser.add_argument('--ttl', type=int, default=3600)
     args = parser.parse_args()
 
     print '[*] %s' % (banner)
     try:
         content = fetchurl(args.url)
-        create_zonefile(
+        create_zone_file(args.bhzonefile, ttl=args.ttl)
+        create_named_conf(
             content,
             args.bhzonefile,
             args.namedconf,
