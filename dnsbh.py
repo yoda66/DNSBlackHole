@@ -13,9 +13,14 @@ def fetchurl(url):
     return content
 
 
-def create_zone_file(bh_zonefile, ttl=3600, ip='127.0.0.1'):
+def create_zone_file(bh_zonefile, ttl=3600, ip='127.0.0.1', banner=''):
     f = open(bh_zonefile, 'w')
+    now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')
     f.write("""\
+;
+; %s
+; Auto-generated: %s
+;
 $TTL %s
 @ IN SOA localhost. root.localhost. (
           1     ; Serial
@@ -26,7 +31,7 @@ $TTL %s
 ;
 @   IN  NS  localhost.
 @   IN  A   %s
-""" % (ttl, ip))
+""" % (banner, now, ttl, ip))
     f.close()
     return
 
@@ -91,7 +96,11 @@ if __name__ == '__main__':
     print '[*] %s' % (banner)
     try:
         content = fetchurl(args.url)
-        create_zone_file(args.bhzonefile, ttl=args.ttl)
+        create_zone_file(
+            args.bhzonefile,
+            ttl=args.ttl,
+            banner=banner
+        )
         create_named_conf(
             content,
             args.bhzonefile,
