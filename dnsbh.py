@@ -42,7 +42,7 @@ def create_named_conf(content, bh_zonefile,
                     named_filename, bdir='', banner=''):
     # regular expression to match a domain name
     rxp = re.compile(
-        r'(?P<domain>(?:[a-z0-9\-]+\.){1,}(?:[a-z]+))',
+        r'.+?(?P<domain>(?:[a-z0-9\-]+\.){1,}(?:[a-z]+))',
         re.IGNORECASE
     )
 
