@@ -42,7 +42,8 @@ def create_named_conf(content, bh_zonefile,
                     named_filename, bdir='', banner=''):
     # regular expression to match a domain name
     rxp = re.compile(
-        r'.+(\t|\s)(?P<domain>(?:[a-z0-9\-]+\.){1,}(?:[a-z0-9\-]+))'
+        r'(?P<domain>(?:[a-z0-9\-]+\.){1,}(?:[a-z]+))',
+        re.IGNORECASE
     )
 
     if bdir and bdir[-1] != '/':
@@ -62,11 +63,12 @@ def create_named_conf(content, bh_zonefile,
     for line in content.split('\n'):
         if line and line[0] == '#':
             continue
-        m = rxp.match(line, re.IGNORECASE)
+        m = rxp.match(line)
         if m:
             recs += 1
+            domain = m.group('domain').lower()
             output = 'zone "%s" { type master; file "%s%s"; };\n' \
-                % (m.group('domain'), bdir, bh_zonefile)
+                % (domain, bdir, bh_zonefile)
             f.write(output)
     print '[*] %d domains written to file: [%s]' % (recs, named_filename)
     f.close()
