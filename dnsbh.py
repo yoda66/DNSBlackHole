@@ -14,6 +14,8 @@ def fetchurl(url):
 
 
 def create_zone_file(bh_zonefile, ttl=3600, ip='127.0.0.1', banner=''):
+    print '[*] Created zonefile [%s], TTL:%d, IP:%s' \
+            % (bh_zonefile, ttl, ip)
     f = open(bh_zonefile, 'w')
     now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')
     f.write("""\
@@ -40,13 +42,13 @@ def create_named_conf(content, bh_zonefile,
                     named_filename, bdir='', banner=''):
     # regular expression to match a domain name
     rxp = re.compile(
-        r'\b(?P<domain>(?:[a-z0-9\-]+\.){1,}(?:[a-z0-9\-]+))\b'
+        r'.+(\t|\s)(?P<domain>(?:[a-z0-9\-]+\.){1,}(?:[a-z0-9\-]+))'
     )
 
     if bdir and bdir[-1] != '/':
         bdir += '/'
-    f = open(named_filename, 'w')
 
+    f = open(named_filename, 'w')
     now = datetime.utcnow().strftime('%Y-%m-%d %H:%M:%S UTC')
     f.write("""\
 //
