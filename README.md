@@ -12,5 +12,6 @@ IP destination to resolve traffic to.
 Author: Joff Thyer
 Black Hills Information Security
 http://www.blackhillsinfosec.com/
+http://www.securityweekly.com/
 
 
