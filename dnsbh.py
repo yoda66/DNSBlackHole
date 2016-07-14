@@ -94,6 +94,10 @@ if __name__ == '__main__':
         '-d', '--bdir', dest='bdir',
         default=''
     )
+    parser.add_argument(
+        '-i', '--ip', dest='ip',
+        default='127.0.0.1'
+    )
     parser.add_argument('--ttl', type=int, default=3600)
     args = parser.parse_args()
 
@@ -103,6 +107,7 @@ if __name__ == '__main__':
         create_zone_file(
             args.bhzonefile,
             ttl=args.ttl,
+            ip=args.ip,
             banner=banner
         )
         create_named_conf(
