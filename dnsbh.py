@@ -7,6 +7,15 @@ import sys
 from datetime import datetime
 
 
+def valid_ipv4_addr(ip):
+    octet = r'(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+    rxp = re.compile(r'^((?:%s\.){3}(?:%s))$' % (octet, octet))
+    m = rxp.match(ip)
+    if m:
+        return True
+    return False
+
+
 def fetchurl(url):
     content = urllib2.urlopen(url).read()
     print '[*] Fetched %d bytes from %s' % (len(content), url)
@@ -36,15 +45,6 @@ $TTL %s
 """ % (banner, now, ttl, ip))
     f.close()
     return
-
-
-def valid_ipv4_addr(ip):
-    octet = r'(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
-    rxp = re.compile(r'^((?:%s\.){3}(?:%s))$' % (octet, octet))
-    m = rxp.match(ip)
-    if m:
-        return True
-    return False
 
 
 def create_named_conf(content, bh_zonefile,
