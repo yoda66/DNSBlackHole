@@ -38,6 +38,16 @@ $TTL %s
     return
 
 
+def valid_ipv4_addr(ip):
+    octet = r'(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
+    rxp = re.compile(r'^((?:%s\.){3}(?:%s))$' % (octet, octet))
+    m = rxp.match(ip)
+    print rxp.findall(ip)
+    if m:
+        return True
+    return False
+
+
 def create_named_conf(content, bh_zonefile,
                     named_filename, bdir='', banner=''):
     # regular expression to match a domain name
@@ -102,6 +112,10 @@ if __name__ == '__main__':
     args = parser.parse_args()
 
     print '[*] %s' % (banner)
+    if not valid_ipv4_addr(args.ip):
+        parser.print_help()
+        sys.exit()
+
     try:
         content = fetchurl(args.url)
         create_zone_file(
