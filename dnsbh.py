@@ -8,6 +8,9 @@ from datetime import datetime
 
 
 def valid_ipv4_addr(ip):
+    """
+    Returns true if an IPv4 address is valid
+    """
     octet = r'(?:[0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])'
     rxp = re.compile(r'^((?:%s\.){3}(?:%s))$' % (octet, octet))
     m = rxp.match(ip)
@@ -23,6 +26,10 @@ def fetchurl(url):
 
 
 def create_zone_file(bh_zonefile, ttl=3600, ip='127.0.0.1', banner=''):
+    """
+    Creates a bind9 compatible zone file
+    that redirects queries to the specified address
+    """
     print '[*] Created zonefile [%s], TTL:%d, IP:%s' \
             % (bh_zonefile, ttl, ip)
     f = open(bh_zonefile, 'w')
@@ -49,6 +56,10 @@ $TTL %s
 
 def create_named_conf(content, bh_zonefile,
                     named_filename, bdir='', banner=''):
+    """
+    Creates a bind9 configuration file for all
+    domains in the data passed into the function.
+    """
     # regular expression to match a domain name
     rxp = re.compile(
         r'.+?(?P<domain>(?:[a-z0-9\-]+\.){1,}(?:[a-z]+))',
