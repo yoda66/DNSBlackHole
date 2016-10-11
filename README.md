@@ -9,6 +9,9 @@ zone file.
 Also has the ability to allow the user to specify a TTL, and
 IP destination to resolve traffic to.
 
+Also included is a basic statistical analysis script for
+analyzing Microsoft DNS debugging logs.
+
 * Author: Joff Thyer
 * Black Hills Information Security
 * http://www.blackhillsinfosec.com/
