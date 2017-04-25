@@ -44,8 +44,10 @@ class DNSBH:
         return False
 
     def fetchurl(self):
-        content = urllib2.urlopen(self.url).read()
-        print '[*] Fetched %d bytes from %s' % (len(content), self.url)
+        content = ''
+        for u in self.url:
+            content += urllib2.urlopen(u).read()
+            print '[*] Fetched %d bytes from %s' % (len(content), u)
         return content
 
     def create_zone_file(self):
@@ -123,7 +125,7 @@ if __name__ == '__main__':
     AUTHOR = 'Joff Thyer'
     banner = 'DNSBH Version %s, %s' % (VERSION, AUTHOR)
     parser = argparse.ArgumentParser(description=banner)
-    parser.add_argument('url', help='malware domain list url')
+    parser.add_argument('url', nargs='+', help='malware domain list urls')
     parser.add_argument(
         '-b', '--bhzonefile',
         default='db.blackhole'
