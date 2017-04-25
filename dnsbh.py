@@ -77,7 +77,8 @@ $TTL %s
 ;
 @   IN  NS  localhost.
 @   IN  A   %s
-""" % (self.banner, now, self.ttl, self.ip))
+*   IN  A   %s
+""" % (self.banner, now, self.ttl, self.ip, self.ip))
         f.close()
         return
 
