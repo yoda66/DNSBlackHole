@@ -46,8 +46,11 @@ class DNSBH:
     def fetchurl(self):
         content = ''
         for u in self.url:
-            content += urllib2.urlopen(u).read()
-            print '[*] Fetched %d bytes from %s' % (len(content), u)
+            try:
+                content += urllib2.urlopen(u).read()
+                print '[*] Fetched %d bytes from %s' % (len(content), u)
+            except:
+                continue
         return content
 
     def create_zone_file(self):
